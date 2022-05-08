@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# 麦荣MyRoom 镜像计划第六小组开发指南
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![](media/16519941093446/16519946792826.jpg)
 
-## Available Scripts
+欢迎字节跳动镜像计划`Team6`同学加入麦荣Web开发项目。这里有项目的开发计划、工作安排和一些实用资料。我们希望大家与其他营员小伙伴充分交流，与技术导师积极沟通，最终共同完成一个让人赞叹的项目，在一个月的时间内收获属于自己的进步！
 
-In the project directory, you can run:
+## ⏰ 重要时间节点 Time Table
+ 
+ **距离项目提交截止日期：** <font size="10">27 天</font>
+ **距离下一次线上课堂：** <font size="10">5 天</font>
+ 
+ ## 🪟 日程安排
 
-### `npm start`
+| 日期| 时间 | 安排 | 备注 |
+|---|:--|---|---|
+| 5月6日 | 19:00 | 开营班会，第一次课 | 已结束 |
+| 5月13日 | 20:00 | 线上课堂1 | 已结束 |
+| 5月20日 | 20:00 | 线上课堂2 | 签到截止5月14日23:59 |
+| 5月27日 | 20:00 | 线上课堂3 | 签到截止5月21日23:59 |
+| 5月27日 | 20:00 | 线上课堂4 | 签到截止5月28日23:59 |
+| 5月30日 | 20:00 | 空中答疑课+直播分享课 | 星期一，无签到，字节工程师及HR参与 |
+| **6月5日** | 23:59 | <font color="red">项目成果提交</font> | 提交作品Deadline |
+| 6月10日 | 20:00 | 项目评分结果 | 结束 |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 💾  开发文档快速访问通道
 
-### `npm test`
+1. [MyRoom系统开发需求文档 >>> ](https://bytedance.feishu.cn/docx/doxcnT9YVJUcVQYY2dyGAmn97cZ)
+2. [MyRoom项目原型设计 >>>](https://bytedance.feishu.cn/docx/doxcnT9YVJUcVQYY2dyGAmn97cZ) 
+3. [前端快速入门手册 >>> ](https://bytedance.feishu.cn/docx/doxcn9MPyw9sfmfEVO2Ki9exRPt)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 💻 Team6 开发团队
 
-### `npm run build`
+| Name | 技术栈 |
+|:-:|:--|
+| 王绪东 | 微信小程序+HarmonyOS 后端 express,mysql,spring会一点 |
+| 蒋希来 | Android移动端（java+kotlin）+微信小程序(wxml+wxss+js) 后端会一点django和mysql |
+| 魏榕 | react+typescript+redux+antd 后端用过express+mongodb |
+| 金聿成 | bootstrap+javascript+nodejs+springboot |
+| 边羽缘 | vue2 js react ts redux 小程序 |
+| 郑成辰 | vue ts |
+| 黄辉煌 | 待补充 |
+| 刘洋 | vue2/3+ts+ vuex，微信小程序，后端懂点express+mongodb |
+| 苏宇 | react+javascript+redux+antd 后端用过egg.js+mysql |
+| 申帆 | vue2/3+ vuex，后端懂点node/express |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚩 分队情况
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<font size="5"> **A小队** `开发经纪人子系统(PC端)`</font> 
+> 小队成员待分配。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<font size="5"> **B小队** `开发客户子系统(M端)`</font>
+> 小队成员待分配。
 
-### `npm run eject`
+## 🌆 项目版本信息
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+`pre-alpha 0.0.1`
+- [x] Git仓库构建，React项目base构建 *May, 8, 2022*
+- [ ] 组长选举，小队分配
+- [ ] MyRoom项目原型设计
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📖 项目说明
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+在房产行业中，经纪人带客户看房是每天的必备工作。但现在由于疫情的原因，很多城市无法实现经纪人带看，对线下房产行业影响巨大。为了帮助经纪人解决这一难题，实现经纪人和客户线上互动，线上介绍房源，了解对比房源，我们本次设计线上看房系统`MyRoom麦荣`，解决经纪人这一难题。
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![](media/16519941093446/16519990743659.jpg)
 
-## Learn More
+### 项目初级目标
+**经纪人子系统**
+- 开发一个低代码编辑器，可以通过拖拽的方式合成一个宣传活动页，并支持预览的功能。低码编辑器中的可编辑模块包括：文字、图片、视频、语音、房源卡片（点击可跳转到展示子系统展示页面）
+- 开发历史活动页编辑及查阅的功能
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**展示子系统**
+- 开发低码编辑器的解析引擎，通过解析低码编辑器产出的数据，生成一个移动端页面
+- 开发房源详情页
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 项目开发记录
 
-### Code Splitting
+To be filled...
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
