@@ -37,7 +37,6 @@
 | 蒋希来 | Android移动端（java+kotlin）+微信小程序(wxml+wxss+js) 后端会一点django和mysql |
 | 魏榕 | react+typescript+redux+antd 后端用过express+mongodb |
 | 金聿成 | bootstrap+javascript+nodejs+springboot |
-| 边羽缘 | vue2 js react ts redux 小程序 |
 | 郑成辰 | vue ts |
 | 黄辉煌 | 待补充 |
 | 刘洋 | vue2/3+ts+ vuex，微信小程序，后端懂点express+mongodb |
