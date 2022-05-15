@@ -12,4 +12,5 @@ export const RIGHT_PANEL_TYPE = {
   VIDEO: "video",
   IMAGE: "image",
   CARD: "card",
+  AUDIO: "audio",
 };

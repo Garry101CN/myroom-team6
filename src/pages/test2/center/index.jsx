@@ -12,7 +12,7 @@ function Center() {
   const [, droper] = useDrop({
     // accept 是一个标识，需要和对应的 drag 元素中 item 的 type 值一致，否则不能感应
     accept: "component",
-    drop: (item, minoter) => {
+    drop: async (item, minoter) => {
       const { x, y } = minoter.getClientOffset();
       const currentX = x - div_X;
       const currentY = y - div_Y;
@@ -40,6 +40,20 @@ function Center() {
             type: "image",
             src: "",
             width: "100px",
+            height: "100px",
+            left: `${currentX}px`,
+            top: `${currentY}px`,
+          },
+        ];
+        dispatch({ type: "SETDATA", data: newdata });
+      } else if (item.tag === COMPONENT_TYPE.AUDIO) {
+        const newdata = [
+          ...data,
+          {
+            id: `audio-${data.length - 1}`,
+            type: "audio",
+            src: "",
+            width: "300px",
             height: "100px",
             left: `${currentX}px`,
             top: `${currentY}px`,
@@ -112,6 +126,44 @@ function Center() {
               position: "absolute",
             }}
           ></img>
+        );
+      } else if (item.type === COMPONENT_TYPE.AUDIO) {
+        output.push(
+          <div
+            onClick={() => {
+              dispatch({
+                type: "setRightPanelType",
+                rightPanelType: RIGHT_PANEL_TYPE.AUDIO,
+              });
+              dispatch({
+                type: "setRightPanelElementId",
+                RightPanelElementId: item.id,
+              });
+            }}
+            key={item.id}
+            style={{
+              width: item.width,
+              height: item.height,
+              left: item.left,
+              top: item.top,
+              position: "absolute",
+            }}
+          >
+            <audio
+              onClick={() => {
+                dispatch({
+                  type: "setRightPanelType",
+                  rightPanelType: RIGHT_PANEL_TYPE.AUDIO,
+                });
+                dispatch({
+                  type: "setRightPanelElementId",
+                  RightPanelElementId: item.id,
+                });
+              }}
+              controls
+              src={item.src}
+            ></audio>
+          </div>
         );
       }
     }
