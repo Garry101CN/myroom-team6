@@ -1,0 +1,44 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+.login {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  .bg {
+    position: relative;
+    margin: 0px auto;
+    width: 70vw;
+    height: 76vh;
+    transform: translateY(20%);
+    background-size: cover;
+    background-position: center;
+    background-image: url(../../asset/images/u1.jpg);
+    overflow: hidden;
+    .bg_group {
+      width: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      .bg_group_login {
+        margin-top: 50px;
+        width: 100%;
+      }
+      .bg_group_register {
+        color: #1890ff;
+        position: absolute;
+        right: 20px;
+        bottom: -30px;
+      }
+    }
+    .bg_title {
+      padding-top: 100px;
+      font-size: 22px;
+      color: rgba(0, 0, 0, 0.42745098039215684);
+      text-align: center;
+      line-height: 22px;
+    }
+  }
+}

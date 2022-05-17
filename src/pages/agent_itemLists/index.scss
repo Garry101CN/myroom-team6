@@ -1,0 +1,19 @@
+.itemLists {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  min-width: 100%;
+  .itemLists_Card {
+    margin: 20px auto;
+    width: 90%;
+    .itemLists_Card_table {
+      .action {
+        .action_e {
+          color: #18aeff;
+        }
+        .action_b {
+          color: #d7dfe9;
+        }
+      }
+    }
+  }
+}
