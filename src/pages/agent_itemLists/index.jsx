@@ -1,20 +1,7 @@
-import { useState, React } from "react";
-import { Menu, Card, Input, Button, Table, Tag, Space } from "antd";
-import { MailOutlined, AppstoreOutlined } from "@ant-design/icons";
+import { React } from "react";
+import { Card, Input, Button, Table } from "antd";
 import "./index.scss";
 const { Search } = Input;
-const items = [
-  {
-    label: "Navigation One",
-    key: "mail",
-    icon: <MailOutlined />,
-  },
-  {
-    label: "Navigation Two",
-    key: "app",
-    icon: <AppstoreOutlined />,
-  },
-];
 
 const columns = [
   {
@@ -74,23 +61,8 @@ const data = [
   },
 ];
 function ItemLists() {
-  const [current, setCurrent] = useState("mail");
-
-  const onClick = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
-  };
-
   return (
     <div className="itemLists">
-      <Menu
-        className="itemLists_menu"
-        theme="dark"
-        onClick={onClick}
-        selectedKeys={[current]}
-        mode="horizontal"
-        items={items}
-      />
       <Card
         className="itemLists_Card"
         title="项目列表"

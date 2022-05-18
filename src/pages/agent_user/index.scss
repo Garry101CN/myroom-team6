@@ -1,7 +1,11 @@
 .itemLists {
+  position: relative;
   background-color: #f0f2f5;
   min-height: 100vh;
   min-width: 100%;
+  .itemLists_menu {
+    padding-left: 200px;
+  }
   .itemUsers_logo {
     position: absolute;
     color: white;
@@ -10,14 +14,6 @@
     left: 40px;
     align-self: center;
     box-sizing: border-box;
-  }
-  .itemUsers_name {
-    position: absolute;
-    font-size: 20px;
-    color: white;
-    opacity: 0.8;
-    top: 0px;
-    right: 100px;
   }
   .itemLists_Card {
     margin: 20px auto;
