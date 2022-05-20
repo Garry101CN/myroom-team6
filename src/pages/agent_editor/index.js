@@ -5,7 +5,7 @@ import "./index.scss";
 
 function Test2() {
   // const {state,dispatch}=useContext(Context)
-
+  
   return (
     <div className="test2">
       <Left />

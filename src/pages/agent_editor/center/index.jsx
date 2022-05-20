@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Context from "../../../redux/store";
 import { useContext } from "react";
 import { RIGHT_PANEL_TYPE, COMPONENT_TYPE } from "../../../redux/constants";
+import classnames from "classnames";
 function Center() {
   const { state, dispatch } = useContext(Context);
   const { data } = state;
@@ -16,6 +17,8 @@ function Center() {
       const { x, y } = minoter.getClientOffset();
       const currentX = x - div_X;
       const currentY = y - div_Y;
+      console.log(x, div_X);
+      console.log(y, div_Y);
       if (item.tag === "text") {
         const newdata = [
           ...data,
@@ -38,7 +41,8 @@ function Center() {
           {
             id: `image-${data.length + 1}`,
             type: "image",
-            src: "",
+            src:
+              "https://fc1tn.baidu.com/it/u=3370372160,683374326&fm=202&mola=new&crop=v1",
             width: "100px",
             height: "100px",
             left: `${currentX}px`,
@@ -77,6 +81,9 @@ function Center() {
       if (item.type === COMPONENT_TYPE.TEXT) {
         output.push(
           <div
+            className={classnames({
+              border_move: item.id === state.rightPanelElementId,
+            })}
             key={item.id}
             onClick={() => {
               dispatch({
@@ -105,6 +112,9 @@ function Center() {
       } else if (item.type === COMPONENT_TYPE.IMAGE) {
         output.push(
           <img
+            className={classnames({
+              border_move: item.id === state.rightPanelElementId,
+            })}
             key={item.id}
             onClick={() => {
               dispatch({
@@ -130,6 +140,9 @@ function Center() {
       } else if (item.type === COMPONENT_TYPE.AUDIO) {
         output.push(
           <div
+            className={classnames({
+              border_move: item.id === state.rightPanelElementId,
+            })}
             onClick={() => {
               dispatch({
                 type: "setRightPanelType",

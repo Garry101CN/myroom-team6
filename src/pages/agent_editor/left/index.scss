@@ -1,0 +1,17 @@
+.test2_left {
+  box-sizing: border-box;
+  padding: 20px;
+  width: 400px;
+  height: 100vh;
+  border: 1px solid lightgray;
+
+  flex-wrap: wrap;
+  background-color: white;
+  justify-content: left;
+  .test2_component {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+  }
+}

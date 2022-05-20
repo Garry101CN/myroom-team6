@@ -8,6 +8,14 @@ export const reducer = (state, action) => {
       return { ...state, rightPanelElementId: action.RightPanelElementId };
     case "mouse":
       return { ...state };
+    case "deleteComponent":
+      const res = [];
+      state.data.forEach((item) => {
+        if (item.id !== action.rightPanelElementId) {
+          res.push(item);
+        }
+      });
+      return { ...state, data: res };
     default:
       return { ...state };
   }

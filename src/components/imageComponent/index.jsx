@@ -2,6 +2,7 @@ import React from "react";
 import { useDrag } from "react-dnd";
 import { COMPONENT_TYPE } from "../../redux/constants";
 import "./index.scss";
+
 function ImageComponent() {
   const [, drag] = useDrag(() => ({
     type: "component",
@@ -12,9 +13,9 @@ function ImageComponent() {
   return (
     <div>
       <img
-        src=""
+        className="component_image"
+        src="https://fc1tn.baidu.com/it/u=3370372160,683374326&fm=202&mola=new&crop=v1"
         alt="这是图片组件"
-        style={{ cursor: "move", height: 50, width: 50 }}
         ref={drag}
       ></img>
     </div>

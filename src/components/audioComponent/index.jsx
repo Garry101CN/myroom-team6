@@ -6,7 +6,7 @@ function AudioComponent() {
   const [, drag] = useDrag(() => ({
     type: "component",
     item: {
-      tag: "audio",
+      tag: COMPONENT_TYPE.AUDIO,
     },
   }));
   return (

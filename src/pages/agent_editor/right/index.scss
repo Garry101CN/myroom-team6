@@ -1,0 +1,29 @@
+.right {
+  background-color: white;
+  border: 1px solid lightgray;
+  width: 400px;
+  height: 100vh;
+}
+.right_input {
+  box-sizing: border-box;
+  margin: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  min-width: 0;
+  padding: 4px 11px;
+  color: #000000d9;
+  font-size: 14px;
+  line-height: 1.5715;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+input:focus {
+  outline-color: #d1e9ff;
+}
