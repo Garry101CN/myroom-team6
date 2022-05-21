@@ -24,3 +24,14 @@
     background-position: 4px 0, -4px 100%, 0 -4px, 100% 4px;
   }
 }
+
+.cardLists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  div {
+    width: 40%;
+    text-align: center;
+  }
+}

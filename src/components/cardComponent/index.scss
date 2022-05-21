@@ -1,0 +1,14 @@
+.cardComponent {
+  cursor: "move";
+  margin-top: 20px;
+  .cardLists {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    div {
+      width: 40%;
+      text-align: center;
+    }
+  }
+}

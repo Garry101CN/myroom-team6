@@ -6,15 +6,11 @@ import { RIGHT_PANEL_TYPE } from "../constants";
 const initState = {
   data: [
     {
-      id: "text-1",
-      type: "text",
-      data: "我是 1 号文字",
-      color: "#FF0000",
-      size: "12px",
-      width: "100px",
-      height: "20px",
-      left: "100px",
-      top: "100px",
+      id: "panel",
+      type: "panel",
+      width: "400px",
+      height: "100vh",
+      backgroundColor: "white",
     },
     {
       id: "text-2",
@@ -26,17 +22,6 @@ const initState = {
       height: "20px",
       left: "100px",
       top: "150px",
-    },
-    {
-      id: "text-3",
-      type: "text",
-      data: "我是 3 号文字",
-      color: "#0000FF",
-      size: "12px",
-      width: "100px",
-      height: "20px",
-      left: "100px",
-      top: "200px",
     },
   ],
   rightPanelType: RIGHT_PANEL_TYPE.NONE,
@@ -51,3 +36,15 @@ const ContextProvider = (props) => {
   );
 };
 export default ContextProvider;
+
+// {
+//   id: "text-1",
+//   type: "text",
+//   data: "我是 1 号文字",
+//   color: "#FF0000",
+//   size: "12px",
+//   width: "100px",
+//   height: "20px",
+//   left: "100px",
+//   top: "100px",
+// },

@@ -13,4 +13,5 @@ export const RIGHT_PANEL_TYPE = {
   IMAGE: "image",
   CARD: "card",
   AUDIO: "audio",
+  PANEL: "panel",
 };

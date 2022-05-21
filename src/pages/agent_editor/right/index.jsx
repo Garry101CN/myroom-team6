@@ -19,6 +19,13 @@ function Right() {
     }
     dispatch({ type: "SETDATA", data: data });
   };
+  const onFinishPanel = (values) => {
+    for (let key in values) {
+      data[0][key] = values[key];
+    }
+
+    dispatch({ type: "SETDATA", data: data });
+  };
 
   const onFinishAudio = (values) => {
     for (let item of data) {
@@ -39,26 +46,74 @@ function Right() {
     }
     return undefined;
   };
-
-  const findCurrentElementAndChangeData = (id, key, changeData) => {
-    for (let item of data) {
-      if (item.id === id) {
-        item[key] = changeData;
+  const generateFormItem = (obj) => {
+    return Object.keys(obj).map((key) => {
+      if (key === "id" || key === "type") {
+        return null;
       }
-    }
-
-    dispatch({ type: "SETDATA", data: data });
+      return (
+        <Form.Item key={obj.id} label={key} name={key}>
+          <Input />
+        </Form.Item>
+      );
+    });
   };
   const generateRightPanel = async () => {
     if (rightPanelType === RIGHT_PANEL_TYPE.NONE) {
       setprivateData(<div>未选中元素</div>);
       return;
+    } else if (rightPanelType === RIGHT_PANEL_TYPE.PANEL) {
+      const elementData = data[0];
+      const { height, width, backgroundColor } = elementData;
+      setprivateData(
+        <div>
+          <h2 style={{ padding: 10 }}>画布属性</h2>
+          <Form
+            key="panel"
+            name="basic"
+            labelCol={{ span: 2 }}
+            wrapperCol={{ span: 8 }}
+            initialValues={{
+              height: height,
+              width: width,
+              backgroundColor: backgroundColor,
+            }}
+            onFinish={onFinishPanel}
+            autoComplete="off"
+          >
+            <Form.Item label="height" name="height">
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="width"
+              name="width"
+              rules={[{ message: "请输入文本颜色" }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item label="backgroundColor" name="backgroundColor">
+              <Input />
+            </Form.Item>
+
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  提交
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </div>
+      );
     } else if (rightPanelType === RIGHT_PANEL_TYPE.TEXT) {
       const elementData = findCurrentElement(rightPanelElementId);
 
       setprivateData(
         <div>
+          <h2 style={{ padding: 10 }}>文字组件</h2>
           <Form
+            key={rightPanelElementId}
             name="basic"
             style={{ margin: 30 }}
             labelCol={{ span: 4 }}
@@ -84,14 +139,14 @@ function Right() {
             </Form.Item>
 
             <Form.Item
-              label="颜色:"
+              label="颜色"
               name="color"
               rules={[{ message: "请输入文本颜色" }]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label="大小:"
+              label="大小"
               name="size"
               rules={[{ message: "请输入文本大小" }]}
             >
@@ -145,10 +200,11 @@ function Right() {
       );
     } else if (rightPanelType === RIGHT_PANEL_TYPE.IMAGE) {
       const elementData = findCurrentElement(rightPanelElementId);
-
       setprivateData(
         <div>
+          <h2 style={{ padding: 10 }}>图片组件</h2>
           <Form
+            key={rightPanelElementId}
             name="basic"
             style={{ margin: 30 }}
             labelCol={{ span: 4 }}
@@ -234,10 +290,12 @@ function Right() {
 
       setprivateData(
         <div>
+          <h2 style={{ padding: 10 }}>音频组件</h2>
           <Form
+            key={rightPanelElementId}
             name="basic"
             style={{ margin: 30 }}
-            labelCol={{ span: 4 }}
+            labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             initialValues={{
               width: elementData.width,
@@ -309,90 +367,90 @@ function Right() {
             </Button>
           </Space>
         </div>
-        // <div key={rightPanelElementId}>
-        //   <div>音频元素</div>
-        //   <br />
+      );
+    } else if (rightPanelType === "card") {
+      const elementData = findCurrentElement(rightPanelElementId);
+      const {
+        name,
 
-        //   <div className="flex-row-space-between text-config-item">
-        //     <div>width:</div>
-        //     <input
-        //       defaultValue={elementData.width}
-        //       ref={(element) => {
-        //         inputDomObject[0] = element;
-        //       }}
-        //       type="text"
-        //     ></input>
-        //   </div>
-        //   <div className="flex-row-space-between text-config-item">
-        //     <div>height:</div>
-        //     <input
-        //       defaultValue={elementData.height}
-        //       ref={(element) => {
-        //         inputDomObject[1] = element;
-        //       }}
-        //       type="text"
-        //     ></input>
-        //   </div>
+        left,
+        top,
+        width,
+        height,
+        width_img,
+        height_img,
+        src,
+        soujia,
+        guapai,
+        fangxing,
+        zhuangxiu,
+        mianji,
+        louxing,
+        chaoxiang,
+        niandai,
+      } = elementData;
+      setprivateData(
+        <div>
+          <h2 style={{ padding: 10 }}>Card组件</h2>
+          <Form
+            key={rightPanelElementId}
+            name="basic"
+            style={{ margin: 30 }}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{
+              width_img: width_img,
+              height_img: height_img,
+              src: src,
+              width: width,
+              height: height,
+              left: left,
+              top: top,
+              name: name,
+              soujia: soujia,
+              guapai: guapai,
+              fangxing: fangxing,
+              zhuangxiu: zhuangxiu,
+              mianji: mianji,
+              louxing: louxing,
+              chaoxiang: chaoxiang,
+              niandai: niandai,
+            }}
+            onFinish={onFinish}
+            autoComplete="off"
+          >
+            {generateFormItem(elementData)}
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  提交
+                </Button>
 
-        //   <div className="flex-row-space-between text-config-item">
-        //     <div>top:</div>
-        //     <input
-        //       defaultValue={elementData.top}
-        //       ref={(element) => {
-        //         inputDomObject[3] = element;
-        //       }}
-        //       type="text"
-        //     ></input>
-        //   </div>
-        //   <div className="flex-row-space-between text-config-item">
-        //     <div>left:</div>
-        //     <input
-        //       defaultValue={elementData.left}
-        //       ref={(element) => {
-        //         inputDomObject[4] = element;
-        //       }}
-        //       type="text"
-        //     ></input>
-        //   </div>
-        //   <br />
-
-        //   <button
-        //     onClick={() => {
-        //       findCurrentElementAndChangeData(
-        //         rightPanelElementId,
-        //         "width",
-        //         inputDomObject[0].value
-        //       );
-        //       findCurrentElementAndChangeData(
-        //         rightPanelElementId,
-        //         "height",
-        //         inputDomObject[1].value
-        //       );
-        //       findCurrentElementAndChangeData(
-        //         rightPanelElementId,
-        //         "src",
-        //         currentData
-        //       );
-        //       findCurrentElementAndChangeData(
-        //         rightPanelElementId,
-        //         "top",
-        //         inputDomObject[3].value
-        //       );
-        //       findCurrentElementAndChangeData(
-        //         rightPanelElementId,
-        //         "left",
-        //         inputDomObject[4].value
-        //       );
-        //     }}
-        //   >
-        //     确定
-        //   </button>
-        // </div>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    dispatch({
+                      type: "deleteComponent",
+                      rightPanelElementId: rightPanelElementId,
+                    });
+                    dispatch({
+                      type: "setRightPanelType",
+                      rightPanelType: RIGHT_PANEL_TYPE.NONE,
+                    });
+                  }}
+                >
+                  撤销该组件
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+        </div>
       );
     }
   };
   useEffect(() => {
     generateRightPanel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, rightPanelType, rightPanelElementId]);
 
   return <div className="right">{privateData}</div>;

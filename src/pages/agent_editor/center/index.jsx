@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Context from "../../../redux/store";
 import { useContext } from "react";
 import { RIGHT_PANEL_TYPE, COMPONENT_TYPE } from "../../../redux/constants";
+import { Card } from "antd";
 import classnames from "classnames";
 function Center() {
   const { state, dispatch } = useContext(Context);
@@ -17,8 +18,6 @@ function Center() {
       const { x, y } = minoter.getClientOffset();
       const currentX = x - div_X;
       const currentY = y - div_Y;
-      console.log(x, div_X);
-      console.log(y, div_Y);
       if (item.tag === "text") {
         const newdata = [
           ...data,
@@ -64,6 +63,31 @@ function Center() {
           },
         ];
         dispatch({ type: "SETDATA", data: newdata });
+      } else if (item.tag === COMPONENT_TYPE.CARD) {
+        const newdata = [
+          ...data,
+          {
+            id: `card-${data.length - 1}`,
+            type: "card",
+            src: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+            width_img: "100%",
+            height_img: "200px",
+            width: "100%",
+            height: "",
+            left: `${0}`,
+            top: `${currentY}`,
+            name: "这是房源名称",
+            soujia: "xxx",
+            guapai: "xxx",
+            fangxing: "xx室xx厅",
+            zhuangxiu: "xx",
+            mianji: "xx",
+            louxing: "xxx",
+            chaoxiang: "xxx",
+            niandai: "xxx",
+          },
+        ];
+        dispatch({ type: "SETDATA", data: newdata });
       }
     },
     // collect 函数，返回的对象会成为 useDrop 的第一个参数，可以在组件中直接进行使用
@@ -85,7 +109,8 @@ function Center() {
               border_move: item.id === state.rightPanelElementId,
             })}
             key={item.id}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               dispatch({
                 type: "setRightPanelType",
                 rightPanelType: RIGHT_PANEL_TYPE.TEXT,
@@ -116,7 +141,8 @@ function Center() {
               border_move: item.id === state.rightPanelElementId,
             })}
             key={item.id}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               dispatch({
                 type: "setRightPanelType",
                 rightPanelType: RIGHT_PANEL_TYPE.IMAGE,
@@ -143,7 +169,8 @@ function Center() {
             className={classnames({
               border_move: item.id === state.rightPanelElementId,
             })}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               dispatch({
                 type: "setRightPanelType",
                 rightPanelType: RIGHT_PANEL_TYPE.AUDIO,
@@ -163,7 +190,8 @@ function Center() {
             }}
           >
             <audio
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 dispatch({
                   type: "setRightPanelType",
                   rightPanelType: RIGHT_PANEL_TYPE.AUDIO,
@@ -178,9 +206,103 @@ function Center() {
             ></audio>
           </div>
         );
+      } else if (item.type === COMPONENT_TYPE.CARD) {
+        const {
+          name,
+          id,
+          left,
+          top,
+          width,
+          height,
+          width_img,
+          height_img,
+          src,
+          soujia,
+          guapai,
+          fangxing,
+          zhuangxiu,
+          mianji,
+          louxing,
+          chaoxiang,
+          niandai,
+        } = item;
+        output.push(
+          <Card
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch({
+                type: "setRightPanelType",
+                rightPanelType: RIGHT_PANEL_TYPE.CARD,
+              });
+              dispatch({
+                type: "setRightPanelElementId",
+                RightPanelElementId: id,
+              });
+            }}
+            key={id}
+            style={{
+              position: "absolute",
+              left: left,
+              top: top,
+              width: width,
+              height: height,
+            }}
+            hoverable
+            cover={
+              <img
+                style={{ width: width_img, height: height_img }}
+                className="card_img"
+                alt="example"
+                src={src}
+              />
+            }
+          >
+            <h2>{name}</h2>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "spaceAround",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ width: "40%", textAlign: "center" }}>
+                售价:{soujia}
+              </div>
+              <div style={{ width: "40%", textAlign: "center" }}>
+                挂牌:{guapai}
+              </div>
+              <div style={{ width: "40%", textAlign: "center" }}>
+                房型:{fangxing}
+              </div>
+              <div style={{ width: "40%", textAlign: "center" }}>
+                装修:{zhuangxiu}
+              </div>
+              <div style={{ width: "40%", textAlign: "center" }}>
+                面积:{mianji}
+              </div>
+              <div style={{ width: "40%", textAlign: "center" }}>
+                楼型:{louxing}
+              </div>
+              <div style={{ width: "40%", textAlign: "center" }}>
+                朝向:{chaoxiang}
+              </div>
+              <div style={{ width: "40%", textAlign: "center" }}>
+                年代:{niandai}
+              </div>
+            </div>
+          </Card>
+        );
       }
     }
     return output;
+  };
+  const getPanelStyle = () => {
+    for (let item of data) {
+      if (item.id === "panel") {
+        return item;
+      }
+    }
   };
   useEffect(() => {
     const test = document.querySelector(".test2_center");
@@ -188,7 +310,17 @@ function Center() {
     setDiv_Y(test.offsetTop);
   }, []);
   return (
-    <div ref={droper} className="test2_center">
+    <div
+      onClick={() => {
+        dispatch({
+          type: "setRightPanelType",
+          rightPanelType: RIGHT_PANEL_TYPE.PANEL,
+        });
+      }}
+      style={{ ...getPanelStyle() }}
+      ref={droper}
+      className="test2_center"
+    >
       {generateContent()}
     </div>
   );
