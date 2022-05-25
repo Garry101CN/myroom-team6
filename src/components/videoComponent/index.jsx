@@ -2,18 +2,18 @@ import React from "react";
 import { useDrag } from "react-dnd";
 import { COMPONENT_TYPE } from "../../redux/constants";
 import "./index.scss";
-function AudioComponent() {
+function VideoComponent() {
   const [, drag] = useDrag(() => ({
     type: "component",
     item: {
-      tag: COMPONENT_TYPE.AUDIO,
+      tag: COMPONENT_TYPE.VIDEO,
     },
   }));
   return (
-    <div ref={drag} style={{ cursor: "move", marginBottom: 10 }}>
-      <audio controls></audio>
+    <div ref={drag} style={{ cursor: "move" }}>
+      <video controls></video>
     </div>
   );
 }
 
-export default AudioComponent;
+export default VideoComponent;

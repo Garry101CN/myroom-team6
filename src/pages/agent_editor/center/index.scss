@@ -1,9 +1,19 @@
+@import "~video-react/styles/scss/video-react";
 .test2_center {
+  transform: matrix3d(0, 0, 0);
   position: relative;
   width: 400px;
   height: 100vh;
   background-color: white;
+  overflow: hidden;
   border: 1px solid lightgray;
+  .audio_mask {
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    z-index: 100;
+    left: 30px;
+  }
 }
 .border {
   border: 1px dash lightblue;

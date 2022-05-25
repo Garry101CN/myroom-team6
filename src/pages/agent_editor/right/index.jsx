@@ -3,12 +3,18 @@ import { useContext, useEffect, useState } from "react";
 import { RIGHT_PANEL_TYPE } from "../../../redux/constants";
 import "./index.scss";
 import { Input, Form, Button, Space, message } from "antd";
+
 function Right() {
   const { state, dispatch } = useContext(Context);
   const { data, rightPanelType, rightPanelElementId } = state;
+  let record = "";
   const [privateData, setprivateData] = useState(<div></div>);
   //用于接受audio的组件
   let currentData;
+  //用于接受video的src属性的数据
+  let VideoSrc;
+  //用于接受img的src属性的数据
+  let ImageSrc;
   const onFinish = (values) => {
     for (let item of data) {
       if (item.id === rightPanelElementId) {
@@ -19,6 +25,18 @@ function Right() {
     }
     dispatch({ type: "SETDATA", data: data });
   };
+  const onFinishImg = (values) => {
+    for (let item of data) {
+      if (item.id === rightPanelElementId) {
+        for (let key in values) {
+          item[key] = values[key];
+        }
+        item.src = ImageSrc;
+      }
+    }
+
+    dispatch({ type: "SETDATA", data: data });
+  };
   const onFinishPanel = (values) => {
     for (let key in values) {
       data[0][key] = values[key];
@@ -26,7 +44,23 @@ function Right() {
 
     dispatch({ type: "SETDATA", data: data });
   };
-
+  //上传图片预览的onchange方法
+  const onchange_img = (event) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      console.log(file);
+      ImageSrc = URL.createObjectURL(file);
+    }
+  };
+  //上传音频的onchange方法
+  const onchange = (event) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      VideoSrc = window.URL.createObjectURL(file);
+    }
+  };
   const onFinishAudio = (values) => {
     for (let item of data) {
       if (item.id === rightPanelElementId) {
@@ -34,6 +68,19 @@ function Right() {
           item[key] = values[key];
         }
         item.src = currentData;
+      }
+    }
+    dispatch({ type: "SETDATA", data: data });
+  };
+  const onFinishVideo = (values) => {
+    console.log("test");
+    for (let item of data) {
+      if (item.id === rightPanelElementId) {
+        for (let key in values) {
+          item[key] = values[key];
+        }
+
+        item.src = VideoSrc;
       }
     }
     dispatch({ type: "SETDATA", data: data });
@@ -52,7 +99,7 @@ function Right() {
         return null;
       }
       return (
-        <Form.Item key={obj.id} label={key} name={key}>
+        <Form.Item key={key} label={key} name={key}>
           <Input />
         </Form.Item>
       );
@@ -71,8 +118,9 @@ function Right() {
           <Form
             key="panel"
             name="basic"
-            labelCol={{ span: 2 }}
-            wrapperCol={{ span: 8 }}
+            style={{ padding: 10 }}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
             initialValues={{
               height: height,
               width: width,
@@ -116,7 +164,7 @@ function Right() {
             key={rightPanelElementId}
             name="basic"
             style={{ margin: 30 }}
-            labelCol={{ span: 4 }}
+            labelCol={{ span: 10 }}
             wrapperCol={{ span: 16 }}
             initialValues={{
               data: elementData.data,
@@ -216,7 +264,7 @@ function Right() {
               left: elementData.left,
               top: elementData.top,
             }}
-            onFinish={onFinish}
+            onFinish={onFinishImg}
             autoComplete="off"
           >
             <Form.Item
@@ -271,22 +319,11 @@ function Right() {
               </Space>
             </Form.Item>
           </Form>
+          <input accept="image/*" type="file" onChange={onchange_img}></input>
         </div>
       );
     } else if (rightPanelType === "audio") {
       const elementData = findCurrentElement(rightPanelElementId);
-
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: false,
-      });
-      const record = new MediaRecorder(stream, {
-        mimeType: "video/webm;codecs=h264",
-      });
-
-      record.ondataavailable = (e) => {
-        currentData = URL.createObjectURL(new Blob([e.data]));
-      };
 
       setprivateData(
         <div>
@@ -314,10 +351,10 @@ function Right() {
               <Input />
             </Form.Item>
 
-            <Form.Item label="top" name="top" rules={[{}]}>
+            <Form.Item label="top" name="top">
               <Input />
             </Form.Item>
-            <Form.Item label="left" name="left" rules={[{}]}>
+            <Form.Item label="left" name="left">
               <Input />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -344,12 +381,24 @@ function Right() {
               </Space>
             </Form.Item>
           </Form>
-          <div></div>
+
           <h3 style={{ marginLeft: 30 }}>录音</h3>
           <Space style={{ marginLeft: 100 }}>
             <Button
               type="primary"
-              onClick={() => {
+              onClick={async () => {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                  audio: true,
+                  video: false,
+                });
+
+                record = new MediaRecorder(stream, {
+                  mimeType: "video/webm;codecs=h264",
+                });
+
+                record.ondataavailable = (e) => {
+                  currentData = URL.createObjectURL(new Blob([e.data]));
+                };
                 record.start();
                 message.info("开始录音");
               }}
@@ -359,6 +408,7 @@ function Right() {
             <Button
               type="primary"
               onClick={() => {
+                if (record === "") return;
                 record.stop();
                 message.info("录音中止");
               }}
@@ -368,11 +418,76 @@ function Right() {
           </Space>
         </div>
       );
+    } else if (rightPanelType === "video") {
+      const elementData = findCurrentElement(rightPanelElementId);
+      const { height, width, src, left, top } = elementData;
+      setprivateData(
+        <div>
+          <h2 style={{ padding: 10 }}>视频组件</h2>
+          <Form
+            key={rightPanelElementId}
+            name="basic"
+            style={{ margin: 30 }}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{
+              width: width,
+              height: height,
+              left: left,
+              top: top,
+              src: src,
+            }}
+            onFinish={onFinishVideo}
+            autoComplete="off"
+          >
+            <Form.Item label="高度" name="height">
+              <Input />
+            </Form.Item>
+
+            <Form.Item label="宽度" name="width">
+              <Input />
+            </Form.Item>
+
+            <Form.Item label="top" name="top">
+              <Input />
+            </Form.Item>
+            <Form.Item label="left" name="left">
+              <Input />
+            </Form.Item>
+            <Form.Item label="src" name="src">
+              <Input />
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  提交
+                </Button>
+
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    dispatch({
+                      type: "deleteComponent",
+                      rightPanelElementId: rightPanelElementId,
+                    });
+                    dispatch({
+                      type: "setRightPanelType",
+                      rightPanelType: RIGHT_PANEL_TYPE.NONE,
+                    });
+                  }}
+                >
+                  撤销该组件
+                </Button>
+              </Space>
+            </Form.Item>
+          </Form>
+          <input accept="video/*" type="file" onChange={onchange}></input>
+        </div>
+      );
     } else if (rightPanelType === "card") {
       const elementData = findCurrentElement(rightPanelElementId);
       const {
         name,
-
         left,
         top,
         width,
@@ -395,8 +510,8 @@ function Right() {
           <Form
             key={rightPanelElementId}
             name="basic"
-            style={{ margin: 30 }}
-            labelCol={{ span: 4 }}
+            style={{ marginLeft: 10 }}
+            labelCol={{ span: 6 }}
             wrapperCol={{ span: 16 }}
             initialValues={{
               width_img: width_img,

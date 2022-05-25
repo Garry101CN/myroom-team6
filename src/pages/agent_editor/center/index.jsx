@@ -1,14 +1,17 @@
 import "./index.scss";
 import { useDrop } from "react-dnd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Context from "../../../redux/store";
 import { useContext } from "react";
 import { RIGHT_PANEL_TYPE, COMPONENT_TYPE } from "../../../redux/constants";
 import { Card } from "antd";
+import { Player } from "video-react";
 import classnames from "classnames";
 function Center() {
+  const videoRef = useRef();
   const { state, dispatch } = useContext(Context);
-  const { data } = state;
+  const Audioref = useRef();
+  const { data, rightPanelElementId } = state;
   const [div_X, setDiv_X] = useState(0);
   const [div_Y, setDiv_Y] = useState(0);
   const [, droper] = useDrop({
@@ -53,11 +56,11 @@ function Center() {
         const newdata = [
           ...data,
           {
-            id: `audio-${data.length - 1}`,
+            id: `audio-${data.length + 1}`,
             type: "audio",
             src: "",
-            width: "300px",
-            height: "100px",
+            width: "",
+            height: "",
             left: `${currentX}px`,
             top: `${currentY}px`,
           },
@@ -67,16 +70,17 @@ function Center() {
         const newdata = [
           ...data,
           {
-            id: `card-${data.length - 1}`,
+            id: `card-${data.length + 1}`,
             type: "card",
-            src: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+            src:
+              "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F121006%2F219049-12100616021661.jpg&refer=http%3A%2F%2Fimg.taopic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1655814591&t=521347d9a7ae2769eeab04667ae906c3",
             width_img: "100%",
             height_img: "200px",
             width: "100%",
             height: "",
-            left: `${0}`,
-            top: `${currentY}`,
-            name: "这是房源名称",
+            left: `${0}px`,
+            top: `${currentY}px`,
+            name: "房源信息",
             soujia: "xxx",
             guapai: "xxx",
             fangxing: "xx室xx厅",
@@ -85,6 +89,20 @@ function Center() {
             louxing: "xxx",
             chaoxiang: "xxx",
             niandai: "xxx",
+          },
+        ];
+        dispatch({ type: "SETDATA", data: newdata });
+      } else if (item.tag === COMPONENT_TYPE.VIDEO) {
+        const newdata = [
+          ...data,
+          {
+            id: `video-${data.length + 1}`,
+            type: "video",
+            src: "",
+            width: "100%",
+            height: "",
+            left: "0px",
+            top: `${currentY}px`,
           },
         ];
         dispatch({ type: "SETDATA", data: newdata });
@@ -106,7 +124,7 @@ function Center() {
         output.push(
           <div
             className={classnames({
-              border_move: item.id === state.rightPanelElementId,
+              border_move: item.id === rightPanelElementId,
             })}
             key={item.id}
             onClick={(e) => {
@@ -138,7 +156,7 @@ function Center() {
         output.push(
           <img
             className={classnames({
-              border_move: item.id === state.rightPanelElementId,
+              border_move: item.id === rightPanelElementId,
             })}
             key={item.id}
             onClick={(e) => {
@@ -164,46 +182,64 @@ function Center() {
           ></img>
         );
       } else if (item.type === COMPONENT_TYPE.AUDIO) {
+        const { top, left, width, height, src, id } = item;
         output.push(
           <div
+            // eslint-disable-next-line no-loop-func
+
             className={classnames({
-              border_move: item.id === state.rightPanelElementId,
+              border_move: item.id === rightPanelElementId,
             })}
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch({
-                type: "setRightPanelType",
-                rightPanelType: RIGHT_PANEL_TYPE.AUDIO,
-              });
-              dispatch({
-                type: "setRightPanelElementId",
-                RightPanelElementId: item.id,
-              });
-            }}
-            key={item.id}
+            key={id}
             style={{
-              width: item.width,
-              height: item.height,
-              left: item.left,
-              top: item.top,
+              left: left,
+              top: top,
               position: "absolute",
             }}
           >
-            <audio
+            <div
               onClick={(e) => {
                 e.stopPropagation();
+
                 dispatch({
                   type: "setRightPanelType",
                   rightPanelType: RIGHT_PANEL_TYPE.AUDIO,
                 });
                 dispatch({
                   type: "setRightPanelElementId",
-                  RightPanelElementId: item.id,
+                  RightPanelElementId: id,
                 });
               }}
+              className="audio_mask"
+            ></div>
+            <audio
+              ref={Audioref}
+              style={{ width: width, height: height }}
               controls
-              src={item.src}
+              src={src}
             ></audio>
+          </div>
+        );
+      } else if (item.type === COMPONENT_TYPE.VIDEO) {
+        const { src, width, id, top, left } = item;
+
+        output.push(
+          <div
+            key={id}
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch({
+                type: "setRightPanelType",
+                rightPanelType: RIGHT_PANEL_TYPE.VIDEO,
+              });
+              dispatch({
+                type: "setRightPanelElementId",
+                RightPanelElementId: item.id,
+              });
+            }}
+            style={{ width: width, position: "absolute", left: left, top: top }}
+          >
+            <Player ref={videoRef} src={src} id="myvideo" controls></Player>
           </div>
         );
       } else if (item.type === COMPONENT_TYPE.CARD) {
@@ -315,6 +351,10 @@ function Center() {
         dispatch({
           type: "setRightPanelType",
           rightPanelType: RIGHT_PANEL_TYPE.PANEL,
+        });
+        dispatch({
+          type: "setRightPanelElementId",
+          RightPanelElementId: "",
         });
       }}
       style={{ ...getPanelStyle() }}

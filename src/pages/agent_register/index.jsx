@@ -7,28 +7,24 @@ import {
   EyeInvisibleOutlined,
   LockOutlined,
 } from "@ant-design/icons";
-import { reqLogin } from "../../utils/ajax_uitis";
+import { reqRegister } from "../../utils/ajax_uitis";
 import { useRef } from "react";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const zhanghaoRef = useRef();
   const passwordRef = useRef();
-  const login = async () => {
+  const register = async () => {
     const name = zhanghaoRef.current.input.value;
     const password = passwordRef.current.input.value;
     if (name.trim() === "" || password.trim() === "") {
       message.error("用户名或者密码不能为空");
       return;
     }
-    const res = await reqLogin(name, password);
-    console.log(res);
+    const res = await reqRegister(name, password);
     if (res.ret) {
-      message.success(`欢迎您,${name}`);
-      localStorage.setItem("token", res.token);
-      navigate("/");
-    } else {
-      message.error("账号或者密码错误");
+      message.success("注册成功，快去登录吧~");
+      navigate("/login");
     }
   };
   return (
@@ -52,14 +48,11 @@ function Login() {
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
           />
-          <Button onClick={login} className="bg_group_login" type="primary">
-            登录
+          <Button onClick={register} className="bg_group_login" type="primary">
+            注册
           </Button>
-          <div
-            onClick={() => navigate("/register")}
-            className="bg_group_register"
-          >
-            点此注册账号
+          <div onClick={() => navigate("/login")} className="bg_group_register">
+            已有账号？点此去登录
           </div>
         </div>
       </div>
@@ -67,4 +60,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
