@@ -15,14 +15,15 @@ const BaseRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Editor />}></Route>
-        <Route path="/userAndItem" element={<ItemsAndUser />}>
-          <Route path="user" element={<User />}></Route>
-          <Route index path="itemLists" element={<ItemLists />}></Route>
+        <Route path="/" element={<ItemsAndUser />}>
+          <Route index element={<ItemLists />}></Route>
+          <Route path="/person" element={<User />}></Route>
+          <Route path="/editor" element={<Editor />}></Route>
+          <Route path="/info" children element={<Info />}></Route>
+          <Route path="/login" children element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
         </Route>
-        <Route path="/info" children element={<Info />}></Route>
-        <Route path="/login" children element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+
         <Route path="*" element={<RouteError />} />
       </Routes>
     </BrowserRouter>

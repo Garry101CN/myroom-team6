@@ -26,14 +26,4 @@ const ContextProvider = (props) => {
 };
 export default ContextProvider;
 
-// {
-//   id: "text-2",
-//   type: "text",
-//   data: "我是 2 号文字",
-//   color: "#00FF00",
-//   size: "12px",
-//   width: "100px",
-//   height: "20px",
-//   left: "100px",
-//   top: "150px",
-// },
+

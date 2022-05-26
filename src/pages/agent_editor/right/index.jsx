@@ -510,9 +510,9 @@ function Right() {
           <Form
             key={rightPanelElementId}
             name="basic"
-            style={{ marginLeft: 10 }}
+            layout="inline"
             labelCol={{ span: 6 }}
-            wrapperCol={{ span: 16 }}
+            wrapperCol={{ span: 12 }}
             initialValues={{
               width_img: width_img,
               height_img: height_img,

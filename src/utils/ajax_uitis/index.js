@@ -4,6 +4,7 @@ import { message } from "antd";
 // const baseURL = "http://180.184.74.25:80";
 // axios.defaults.headers["Content-Type"] = "application/json";
 
+axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 function ajax(url, data = {}, type = "GET") {
   return new Promise((resolve) => {
     let promise;

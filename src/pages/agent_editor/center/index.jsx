@@ -19,6 +19,7 @@ function Center() {
     accept: "component",
     drop: async (item, minoter) => {
       const { x, y } = minoter.getClientOffset();
+      console.log(div_X, div_Y);
       const currentX = x - div_X;
       const currentY = y - div_Y;
       if (item.tag === "text") {
