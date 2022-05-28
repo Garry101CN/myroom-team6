@@ -1,3 +1,5 @@
+import { initState } from "../constants";
+
 export const reducer = (state, action) => {
   switch (action.type) {
     case "SETDATA":
@@ -16,6 +18,9 @@ export const reducer = (state, action) => {
         }
       });
       return { ...state, data: res };
+    case "reset":
+      console.log("reset");
+      return { ...initState };
     default:
       return { ...state };
   }

@@ -26,7 +26,7 @@ function Center() {
         const newdata = [
           ...data,
           {
-            id: `text-${data.length + 1}`,
+            id: `text-${Math.random()}`,
             type: "text",
             data: "我是新建的文字",
             color: "#000000",
@@ -147,7 +147,6 @@ function Center() {
               left: item.left,
               top: item.top,
               position: "absolute",
-              backgroundColor: "#bbbbbb",
             }}
           >
             {item.data}

@@ -1,9 +1,9 @@
-import { useState, React } from "react";
+import { useState, React, useEffect } from "react";
 import { Menu } from "antd";
 import { MailOutlined, AppstoreOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { Outlet } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 // <Route index element={<ItemLists />}></Route>
 // <Route path="/person" element={<User />}></Route>
 // <Route path="/editor" element={<Editor />}></Route>
@@ -13,33 +13,31 @@ import { useNavigate } from "react-router-dom";
 const items = [
   {
     label: "项目列表",
-    key: "",
+    key: "/",
   },
   {
     label: "在线用户",
-    key: "person",
+    key: "/person",
   },
   {
     label: "编辑器页",
-    key: "editor",
+    key: "/editor",
   },
   {
     label: "个人信息",
-    key: "info",
+    key: "/info",
   },
   {
     label: "登录/注册",
-    key: "login",
+    key: "/login",
   },
 ];
 
 function ItemsAndUser() {
   const nav = useNavigate();
-  const [current, setCurrent] = useState("mail");
+  const location = useLocation();
 
   const onClick = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
     nav(e.key);
   };
 
@@ -49,7 +47,7 @@ function ItemsAndUser() {
         className="itemLists_menu"
         theme="dark"
         onClick={onClick}
-        selectedKeys={[current]}
+        selectedKeys={[location.pathname]}
         mode="horizontal"
         items={items}
       />

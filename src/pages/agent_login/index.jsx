@@ -22,6 +22,7 @@ function Login() {
       return;
     }
     const res = await reqLogin(name, password);
+    console.log(res);
 
     if (res.ret) {
       message.success(`欢迎您,${name}`);

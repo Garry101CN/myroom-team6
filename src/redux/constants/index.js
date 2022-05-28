@@ -15,3 +15,17 @@ export const RIGHT_PANEL_TYPE = {
   AUDIO: "audio",
   PANEL: "panel",
 };
+
+export const initState = {
+  data: [
+    {
+      id: "panel",
+      type: "panel",
+      width: "400px",
+      height: "100vh",
+      backgroundColor: "white",
+    },
+  ],
+  rightPanelType: RIGHT_PANEL_TYPE.PANEL,
+  rightPanelElementId: "",
+};

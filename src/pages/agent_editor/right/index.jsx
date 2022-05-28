@@ -2,19 +2,48 @@ import Context from "../../../redux/store";
 import { useContext, useEffect, useState } from "react";
 import { RIGHT_PANEL_TYPE } from "../../../redux/constants";
 import "./index.scss";
-import { Input, Form, Button, Space, message } from "antd";
-
+import { Input, Form, Button, Space, message, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 function Right() {
   const { state, dispatch } = useContext(Context);
   const { data, rightPanelType, rightPanelElementId } = state;
-  let record = "";
+  const [audioForm] = Form.useForm();
+  const [imgForm] = Form.useForm();
+  const [videoForm] = Form.useForm();
   const [privateData, setprivateData] = useState(<div></div>);
+  function createProps(action, name, form) {
+    return {
+      name: name,
+      action: action,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      onChange(info) {
+        if (info.file.status !== "uploading") {
+          console.log(info.file, info.fileList);
+        }
+
+        if (info.file.status === "done") {
+          for (let item of data) {
+            if (item.id === rightPanelElementId) {
+              item.src = info.fileList[0].response.src;
+              form.setFieldsValue(item);
+            }
+          }
+
+          dispatch({ type: "SETDATA", data: data });
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === "error") {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+  }
+
   //用于接受audio的组件
   let currentData;
   //用于接受video的src属性的数据
   let VideoSrc;
-  //用于接受img的src属性的数据
-  let ImageSrc;
   const onFinish = (values) => {
     for (let item of data) {
       if (item.id === rightPanelElementId) {
@@ -31,7 +60,6 @@ function Right() {
         for (let key in values) {
           item[key] = values[key];
         }
-        item.src = ImageSrc;
       }
     }
 
@@ -44,15 +72,7 @@ function Right() {
 
     dispatch({ type: "SETDATA", data: data });
   };
-  //上传图片预览的onchange方法
-  const onchange_img = (event) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      console.log(file);
-      ImageSrc = URL.createObjectURL(file);
-    }
-  };
+
   //上传音频的onchange方法
   const onchange = (event) => {
     const files = event.target.files;
@@ -93,6 +113,7 @@ function Right() {
     }
     return undefined;
   };
+
   const generateFormItem = (obj) => {
     return Object.keys(obj).map((key) => {
       if (key === "id" || key === "type") {
@@ -248,11 +269,12 @@ function Right() {
       );
     } else if (rightPanelType === RIGHT_PANEL_TYPE.IMAGE) {
       const elementData = findCurrentElement(rightPanelElementId);
+      imgForm.setFieldsValue(elementData);
       setprivateData(
         <div>
           <h2 style={{ padding: 10 }}>图片组件</h2>
           <Form
-            key={rightPanelElementId}
+            form={imgForm}
             name="basic"
             style={{ margin: 30 }}
             labelCol={{ span: 4 }}
@@ -319,7 +341,11 @@ function Right() {
               </Space>
             </Form.Item>
           </Form>
-          <input accept="image/*" type="file" onChange={onchange_img}></input>
+          <Upload {...createProps("/upload/picture", "picture", imgForm)}>
+            <Button style={{ marginLeft: "50%" }} icon={<UploadOutlined />}>
+              Click to Upload
+            </Button>
+          </Upload>
         </div>
       );
     } else if (rightPanelType === "audio") {
@@ -382,40 +408,11 @@ function Right() {
             </Form.Item>
           </Form>
 
-          <h3 style={{ marginLeft: 30 }}>录音</h3>
-          <Space style={{ marginLeft: 100 }}>
-            <Button
-              type="primary"
-              onClick={async () => {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                  audio: true,
-                  video: false,
-                });
-
-                record = new MediaRecorder(stream, {
-                  mimeType: "video/webm;codecs=h264",
-                });
-
-                record.ondataavailable = (e) => {
-                  currentData = URL.createObjectURL(new Blob([e.data]));
-                };
-                record.start();
-                message.info("开始录音");
-              }}
-            >
-              开始录音
+          <Upload {...createProps("/upload/audio", "audio", audioForm)}>
+            <Button style={{ marginLeft: "50%" }} icon={<UploadOutlined />}>
+              Click to Upload
             </Button>
-            <Button
-              type="primary"
-              onClick={() => {
-                if (record === "") return;
-                record.stop();
-                message.info("录音中止");
-              }}
-            >
-              中止录音
-            </Button>
-          </Space>
+          </Upload>
         </div>
       );
     } else if (rightPanelType === "video") {
@@ -481,7 +478,12 @@ function Right() {
               </Space>
             </Form.Item>
           </Form>
-          <input accept="video/*" type="file" onChange={onchange}></input>
+          <Upload {...createProps("/upload/video", "video", videoForm)}>
+            <Button style={{ marginLeft: "50%" }} icon={<UploadOutlined />}>
+              Click to Upload
+            </Button>
+          </Upload>
+          <p>mp4格式的视频需要使用编码格式为AVC(H264),否则可能会出现异常</p>
         </div>
       );
     } else if (rightPanelType === "card") {
