@@ -237,7 +237,12 @@ function Center() {
                 RightPanelElementId: item.id,
               });
             }}
-            style={{ width: width, position: "absolute", left: left, top: top }}
+            style={{
+              width: width,
+              position: "absolute",
+              left: left,
+              top: top,
+            }}
           >
             <Player ref={videoRef} src={src} id="myvideo" controls></Player>
           </div>
@@ -298,8 +303,9 @@ function Center() {
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                justifyContent: "spaceAround",
+                justifyContent: "space-between",
                 alignItems: "center",
+                fontSize: 16,
               }}
             >
               <div style={{ width: "40%", textAlign: "center" }}>

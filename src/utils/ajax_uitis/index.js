@@ -12,7 +12,8 @@ axios.interceptors.response.use(
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
-    console.log(error);
+
+    return error.response.status;
   }
 );
 function ajax(url, data = {}, type = "GET") {
@@ -51,7 +52,8 @@ function ajax(url, data = {}, type = "GET") {
     }
     promise
       .then((response) => {
-        resolve(response.data);
+        if (response === 401) resolve(401);
+        else resolve(response.data);
       })
       .catch((error) => {
         message.error("请求出错了：" + error.message);

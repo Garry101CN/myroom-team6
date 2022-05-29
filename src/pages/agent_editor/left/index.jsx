@@ -14,7 +14,6 @@ function Left({ projectId }) {
   const nav = useNavigate();
   const { state, dispatch } = useContext(Context);
   const { data } = state;
-  console.log(data);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const ref = useRef(null);
   const showModal = () => {

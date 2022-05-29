@@ -67,6 +67,10 @@ function ItemLists() {
   useEffect(() => {
     const asyncfunc = async () => {
       const res = await reqGetProject();
+      if (res === 401) {
+        message.error("您还未登录或者登录已过期");
+        nav("/login", { replace: true });
+      }
       setData(res.data.reverse());
     };
     asyncfunc();

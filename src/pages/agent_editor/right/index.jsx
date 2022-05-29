@@ -4,12 +4,14 @@ import { RIGHT_PANEL_TYPE } from "../../../redux/constants";
 import "./index.scss";
 import { Input, Form, Button, Space, message, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { changeLabel } from "../../../utils/constant/index";
 function Right() {
   const { state, dispatch } = useContext(Context);
   const { data, rightPanelType, rightPanelElementId } = state;
   const [audioForm] = Form.useForm();
   const [imgForm] = Form.useForm();
   const [videoForm] = Form.useForm();
+  const [cardForm] = Form.useForm();
   const [privateData, setprivateData] = useState(<div></div>);
   function createProps(action, name, form) {
     return {
@@ -73,14 +75,6 @@ function Right() {
     dispatch({ type: "SETDATA", data: data });
   };
 
-  //上传音频的onchange方法
-  const onchange = (event) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      VideoSrc = window.URL.createObjectURL(file);
-    }
-  };
   const onFinishAudio = (values) => {
     for (let item of data) {
       if (item.id === rightPanelElementId) {
@@ -120,7 +114,7 @@ function Right() {
         return null;
       }
       return (
-        <Form.Item key={key} label={key} name={key}>
+        <Form.Item key={key} label={changeLabel[key]} name={key}>
           <Input />
         </Form.Item>
       );
@@ -510,11 +504,13 @@ function Right() {
         <div>
           <h2 style={{ padding: 10 }}>Card组件</h2>
           <Form
+            form={cardForm}
             key={rightPanelElementId}
+            style={{ marginLeft: 20 }}
             name="basic"
-            layout="inline"
+            labelAlign="right"
             labelCol={{ span: 6 }}
-            wrapperCol={{ span: 12 }}
+            wrapperCol={{ span: 16 }}
             initialValues={{
               width_img: width_img,
               height_img: height_img,
@@ -561,6 +557,11 @@ function Right() {
               </Space>
             </Form.Item>
           </Form>
+          <Upload {...createProps("/upload/picture", "picture", cardForm)}>
+            <Button style={{ marginLeft: "50%" }} icon={<UploadOutlined />}>
+              Click to Upload
+            </Button>
+          </Upload>
         </div>
       );
     }

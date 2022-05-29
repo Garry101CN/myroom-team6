@@ -1,0 +1,18 @@
+export const changeLabel = {
+  src: "src",
+  width_img: "图片宽度",
+  height_img: "图片高度",
+  width: "宽度",
+  height: "高度",
+  left: "left",
+  top: "top",
+  name: "名称",
+  soujia: "售价",
+  guapai: "挂牌",
+  fangxing: "房型",
+  zhuangxiu: "装修",
+  mianji: "面积",
+  louxing: "楼型",
+  chaoxiang: "朝向",
+  niandai: "年代",
+};
