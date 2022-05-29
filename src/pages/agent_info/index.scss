@@ -1,0 +1,36 @@
+.info-layout{
+        min-height: 100vh;
+        .header{
+            display: flex;  
+            align-items: center;
+            .logo {
+                float: left;
+                background-image: url('../../asset/images/logo.png');  
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 120px;
+                height: 31px;
+                margin-right: 2%;
+            }     
+        }
+        
+        .user-info{
+            width: 75vw;
+            height: 80vh;
+            margin: auto auto;
+            border-radius: 2%;
+            .info-form{
+                // background-color: blue;
+                margin-top: 3%;
+                .form-item{
+                    width: 60%;
+                    margin-top: 2%;
+                }
+            }
+        }
+        
+        
+        
+    }
+    
