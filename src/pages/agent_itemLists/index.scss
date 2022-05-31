@@ -1,7 +1,8 @@
 .itemLists {
   background-color: #f0f2f5;
+  box-sizing: border-box;
   min-height: 100vh;
-  min-width: 100%;
+  max-width: 100%;
   .itemUsers_logo {
     position: absolute;
     color: white;

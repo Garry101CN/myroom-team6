@@ -1,5 +1,5 @@
-import { React, useEffect, useState, useContext } from "react";
-import { Card, Input, Button, Table, message } from "antd";
+import { React, useEffect, useState, useContext, useRef } from "react";
+import { Card, Input, Table, message } from "antd";
 import dayjs from "dayjs";
 import "./index.scss";
 import { reqGetProject, reqEditor, reqGetDetail } from "../../utils/ajax_uitis";
@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 const { Search } = Input;
 
 function ItemLists() {
-  const { state, dispatch } = useContext(Context);
+  const { dispatch } = useContext(Context);
+  let resetData = useRef(null);
   const [data, setData] = useState([]);
   const nav = useNavigate();
   const projectDelete = async (text) => {
@@ -19,11 +20,36 @@ function ItemLists() {
       setData(newres.data.reverse());
     }
   };
+  const searchItem = (value) => {
+    value = value.trim();
+    if (value === "") {
+      setData(resetData.current);
+      return;
+    }
+    let newData = data.filter((item) => {
+      for (let key in item) {
+        if (item[key] == null) return false;
+        if (key !== "id") {
+          if (item[key].indexOf(value) !== -1) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+    console.log(newData);
+    setData(newData);
+  };
   const projectEditor = async (text) => {
     const res = await reqGetDetail(text.id);
-    console.log(res);
+    let Id;
+    for (let item of res.data) {
+      if (item.type === "card") {
+        Id = item.Id;
+      }
+    }
     dispatch({ type: "SETDATA", data: res.data });
-    nav("/editor", { state: text.id });
+    nav("/editor", { state: { projectId: text.id, Id: Id } });
   };
   const columns = [
     {
@@ -49,11 +75,29 @@ function ItemLists() {
       key: "action",
       render: (text, record) => (
         <div className="action">
-          <span onClick={() => projectEditor(text)} className="action_e">
+          <span
+            onClick={() => {
+              if (localStorage.getItem("username") !== text.author) {
+                message.error("您没有权限修改该活动页");
+                return;
+              }
+              projectEditor(text);
+            }}
+            className="action_e"
+          >
             编辑
           </span>
           <span className="action_b"> | </span>
-          <span onClick={() => projectDelete(text)} className="action_e">
+          <span
+            onClick={() => {
+              if (localStorage.getItem("username") !== text.author) {
+                message.error("您没有权限修改该活动页");
+                return;
+              }
+              projectDelete(text);
+            }}
+            className="action_e"
+          >
             删除
           </span>
           <span className="action_b">|</span>
@@ -71,31 +115,25 @@ function ItemLists() {
         message.error("您还未登录或者登录已过期");
         nav("/login", { replace: true });
       }
+      console.log(res.data);
       setData(res.data.reverse());
+      resetData.current = JSON.parse(JSON.stringify(res.data));
     };
     asyncfunc();
-
-    return;
   }, []);
   return (
     <div className="itemLists">
       <Card
         className="itemLists_Card"
-        title="项目列表"
+        title="已制作的活动页"
         extra={
           <Search
             placeholder="请输入"
-            onSearch={(value) => console.log(value)}
+            onSearch={(value) => searchItem(value)}
             style={{ width: 300 }}
           />
         }
       >
-        <Button
-          style={{ width: "100%", height: "50px", marginBottom: "20px" }}
-          type="dashed"
-        >
-          Dashed
-        </Button>
         <Table
           rowKey="id"
           className="itemLists_Card_table"

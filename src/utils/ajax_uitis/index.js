@@ -77,3 +77,7 @@ export const reqGetDetail = (projectId) =>
 
 export const reqUpdate = (projectId, data) =>
   ajax(`agent/update/${projectId}`, data, "PUT");
+
+export const reqonlineUser = () => ajax("/agent/onlineUser");
+
+export const reqGetLists = () => ajax("/agent/enable/house");

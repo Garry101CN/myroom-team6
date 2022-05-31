@@ -1,5 +1,6 @@
 @import "~video-react/styles/scss/video-react";
 .test2_center {
+  box-sizing: border-box;
   transform: matrix3d(0, 0, 0);
   position: relative;
   width: 400px;
@@ -44,4 +45,8 @@
     width: 40%;
     text-align: center;
   }
+}
+
+.isScroll {
+  overflow: scroll;
 }

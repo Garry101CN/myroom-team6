@@ -8,6 +8,19 @@ import { useEffect } from "react";
 function Test2() {
   const nav = useNavigate();
   const location = useLocation();
+  let Id = null;
+  let projectId = null;
+  console.log(location);
+  if (location.state) {
+    if (location.state.id) {
+      console.log("test");
+
+      Id = location.state.id;
+    }
+    if (location.state.projectId) {
+      projectId = location.state.projectId;
+    }
+  }
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -18,8 +31,8 @@ function Test2() {
 
   return (
     <div className="test2">
-      <Left projectId={location.state} />
-      <Center />
+      <Left Id={Id} projectId={projectId} />
+      <Center Id={Id} />
       <Right />
     </div>
   );

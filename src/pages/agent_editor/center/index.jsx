@@ -7,7 +7,7 @@ import { RIGHT_PANEL_TYPE, COMPONENT_TYPE } from "../../../redux/constants";
 import { Card } from "antd";
 import { Player } from "video-react";
 import classnames from "classnames";
-function Center() {
+function Center({ Id }) {
   const videoRef = useRef();
   const { state, dispatch } = useContext(Context);
   const Audioref = useRef();
@@ -74,7 +74,7 @@ function Center() {
             id: `card-${data.length + 1}`,
             type: "card",
             src:
-              "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F121006%2F219049-12100616021661.jpg&refer=http%3A%2F%2Fimg.taopic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1655814591&t=521347d9a7ae2769eeab04667ae906c3",
+              "https://img0.baidu.com/it/u=4285791266,2719312222&fm=253&fmt=auto&app=120&f=JPEG?w=360&h=270",
             width_img: "100%",
             height_img: "200px",
             width: "100%",
@@ -90,6 +90,8 @@ function Center() {
             louxing: "xxx",
             chaoxiang: "xxx",
             niandai: "xxx",
+            // eslint-disable-next-line no-undef
+            toid: Number(Id),
           },
         ];
         dispatch({ type: "SETDATA", data: newdata });
@@ -352,22 +354,26 @@ function Center() {
     setDiv_Y(test.offsetTop);
   }, []);
   return (
-    <div
-      onClick={() => {
-        dispatch({
-          type: "setRightPanelType",
-          rightPanelType: RIGHT_PANEL_TYPE.PANEL,
-        });
-        dispatch({
-          type: "setRightPanelElementId",
-          RightPanelElementId: "",
-        });
-      }}
-      style={{ ...getPanelStyle() }}
-      ref={droper}
-      className="test2_center"
-    >
-      {generateContent()}
+    <div style={{ overflowY: "scroll", height: "100vh" }}>
+      <div
+        onClick={() => {
+          dispatch({
+            type: "setRightPanelType",
+            rightPanelType: RIGHT_PANEL_TYPE.PANEL,
+          });
+          dispatch({
+            type: "setRightPanelElementId",
+            RightPanelElementId: "",
+          });
+        }}
+        style={{
+          ...getPanelStyle(),
+        }}
+        ref={droper}
+        className="test2_center"
+      >
+        {generateContent()}
+      </div>
     </div>
   );
 }

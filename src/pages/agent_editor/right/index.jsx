@@ -5,6 +5,7 @@ import "./index.scss";
 import { Input, Form, Button, Space, message, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { changeLabel } from "../../../utils/constant/index";
+import { Scrollbars } from "react-custom-scrollbars";
 function Right() {
   const { state, dispatch } = useContext(Context);
   const { data, rightPanelType, rightPanelElementId } = state;
@@ -110,7 +111,7 @@ function Right() {
 
   const generateFormItem = (obj) => {
     return Object.keys(obj).map((key) => {
-      if (key === "id" || key === "type") {
+      if (key === "id" || key === "type" || key === "toid") {
         return null;
       }
       return (
@@ -128,7 +129,7 @@ function Right() {
       const elementData = data[0];
       const { height, width, backgroundColor } = elementData;
       setprivateData(
-        <div>
+        <div style={{ overflowY: "scroll" }}>
           <h2 style={{ padding: 10 }}>画布属性</h2>
           <Form
             key="panel"
@@ -173,7 +174,7 @@ function Right() {
       const elementData = findCurrentElement(rightPanelElementId);
 
       setprivateData(
-        <div>
+        <div style={{ overflowY: "scroll" }}>
           <h2 style={{ padding: 10 }}>文字组件</h2>
           <Form
             key={rightPanelElementId}
@@ -265,7 +266,7 @@ function Right() {
       const elementData = findCurrentElement(rightPanelElementId);
       imgForm.setFieldsValue(elementData);
       setprivateData(
-        <div>
+        <div style={{ overflowY: "scroll" }}>
           <h2 style={{ padding: 10 }}>图片组件</h2>
           <Form
             form={imgForm}
@@ -346,7 +347,7 @@ function Right() {
       const elementData = findCurrentElement(rightPanelElementId);
 
       setprivateData(
-        <div>
+        <div style={{ overflowY: "scroll" }}>
           <h2 style={{ padding: 10 }}>音频组件</h2>
           <Form
             key={rightPanelElementId}
@@ -501,7 +502,7 @@ function Right() {
         niandai,
       } = elementData;
       setprivateData(
-        <div>
+        <div style={{ overflowY: "scroll", height: "100vh" }}>
           <h2 style={{ padding: 10 }}>Card组件</h2>
           <Form
             form={cardForm}

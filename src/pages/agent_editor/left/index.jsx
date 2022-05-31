@@ -10,7 +10,7 @@ import Context from "../../../redux/store";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { reqUpdate } from "../../../utils/ajax_uitis/index";
-function Left({ projectId }) {
+function Left({ projectId, Id }) {
   const nav = useNavigate();
   const { state, dispatch } = useContext(Context);
   const { data } = state;
@@ -22,21 +22,23 @@ function Left({ projectId }) {
 
   const handleOk = async () => {
     const request = {};
-    request.author = localStorage.getItem("username");
     request.name = ref.current.input.value;
+    request.author = localStorage.getItem("username");
+
     request.data = data;
     if (!projectId) {
+      console.log(request);
       const res = await axios({
         method: "post",
         url: "/agent/create/project",
         data: JSON.stringify(request),
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
+          "Content-Type": "application/json; charset=utf-8",
         },
       });
 
-      if (res.ret) {
+      if (res.status === 200) {
         message.success("您已成功创建该项目");
         dispatch({ type: "reset" });
         nav("/");
@@ -48,7 +50,7 @@ function Left({ projectId }) {
       setIsModalVisible(false);
     } else {
       const res = await reqUpdate(projectId, request);
-      if (res.ret) {
+      if (res.status === 200) {
         setIsModalVisible(false);
         dispatch({ type: "reset" });
         message.success("您已成功更新该项目");
@@ -66,11 +68,11 @@ function Left({ projectId }) {
   };
 
   return (
-    <div className="test2_left">
+    <div className="test2_left" style={{ overflowY: "scroll" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h2>组件</h2>
         <Button type="primary" onClick={showModal}>
-          {projectId ? "更新项目" : "创建项目"}
+          {projectId ? "更新活动页" : "创建活动页"}
         </Button>
         <Modal
           title="活动页名称"

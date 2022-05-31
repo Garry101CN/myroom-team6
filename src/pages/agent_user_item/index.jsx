@@ -12,7 +12,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 // <Route path="/register" element={<Register />}></Route>
 const items = [
   {
-    label: "项目列表",
+    label: "已制作活动页列表",
     key: "/",
   },
   {
@@ -20,8 +20,8 @@ const items = [
     key: "/person",
   },
   {
-    label: "编辑器页",
-    key: "/editor",
+    label: "项目列表",
+    key: "/detailPage",
   },
   {
     label: "个人信息",
