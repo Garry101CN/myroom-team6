@@ -1,7 +1,7 @@
 import axios from "axios";
 import { message } from "antd";
 
-// const baseURL = "http://180.184.74.25:80";
+const baseURL = "http://180.184.74.25:80";
 // axios.defaults.headers["Content-Type"] = "application/json";
 axios.interceptors.response.use(
   function (response) {
@@ -12,8 +12,7 @@ axios.interceptors.response.use(
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
-
-    return error.response.status;
+    console.log(error);
   }
 );
 function ajax(url, data = {}, type = "GET") {
@@ -21,9 +20,10 @@ function ajax(url, data = {}, type = "GET") {
 
   return new Promise((resolve) => {
     let promise;
+    
     if (type === "GET") {
       promise = axios.get(
-        url,
+        baseURL +  url,
         {
           params: data,
           headers: {
@@ -32,23 +32,29 @@ function ajax(url, data = {}, type = "GET") {
         } //指定参数
       );
     } else if (type === "POST") {
-      promise = axios.post(url, data, {
+      promise = axios.post(baseURL + url, data, {
         headers: {
           Authorization: token,
         },
       });
     } else if (type === "DELETE") {
-      promise = axios.delete(url, data, {
+      promise = axios.delete(baseURL + url, data, {
         headers: {
           Authorization: token,
         },
       });
     } else if (type === "PUT") {
-      promise = axios.put(url, data, {
+      promise = axios.put(baseURL + url, data, {
         headers: {
           Authorization: token,
         },
       });
+    } else if (type === "PATCH"){
+      promise = axios.patch(baseURL + url,data, {
+        headers: {
+          Authorization: token,
+        }
+      })
     }
     promise
       .then((response) => {
@@ -81,3 +87,10 @@ export const reqUpdate = (projectId, data) =>
 export const reqonlineUser = () => ajax("/agent/onlineUser");
 
 export const reqGetLists = () => ajax("/agent/enable/house");
+
+export const reqGetInfo = () =>
+  ajax("/agent/profile",{},"GET");
+
+
+export const reqInfoUpdata = (data) => 
+  ajax("/agent/info",data,"PATCH");
