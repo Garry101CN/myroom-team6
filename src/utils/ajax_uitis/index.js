@@ -1,7 +1,7 @@
 import axios from "axios";
 import { message } from "antd";
 
-const baseURL = "http://180.184.74.25:80";
+// const baseURL = "http://180.184.74.25:80";
 // axios.defaults.headers["Content-Type"] = "application/json";
 axios.interceptors.response.use(
   function (response) {
