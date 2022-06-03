@@ -50,13 +50,14 @@ function Left({ projectId, Id }) {
       setIsModalVisible(false);
     } else {
       const res = await reqUpdate(projectId, request);
-      if (res.status === 200) {
+      if (res.ret === true) {
         setIsModalVisible(false);
         dispatch({ type: "reset" });
         message.success("您已成功更新该项目");
         nav("/");
       } else {
         dispatch({ type: "reset" });
+        console.log(res);
         message.error("您还没有登录，或者登录过期，请重新登录");
         nav("/login");
       }

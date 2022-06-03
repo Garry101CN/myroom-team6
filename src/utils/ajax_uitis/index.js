@@ -20,10 +20,10 @@ function ajax(url, data = {}, type = "GET") {
 
   return new Promise((resolve) => {
     let promise;
-    
+
     if (type === "GET") {
       promise = axios.get(
-        baseURL +  url,
+        url,
         {
           params: data,
           headers: {
@@ -32,29 +32,29 @@ function ajax(url, data = {}, type = "GET") {
         } //指定参数
       );
     } else if (type === "POST") {
-      promise = axios.post(baseURL + url, data, {
+      promise = axios.post(url, data, {
         headers: {
           Authorization: token,
         },
       });
     } else if (type === "DELETE") {
-      promise = axios.delete(baseURL + url, data, {
+      promise = axios.delete(url, data, {
         headers: {
           Authorization: token,
         },
       });
     } else if (type === "PUT") {
-      promise = axios.put(baseURL + url, data, {
+      promise = axios.put(url, data, {
         headers: {
           Authorization: token,
         },
       });
-    } else if (type === "PATCH"){
-      promise = axios.patch(baseURL + url,data, {
+    } else if (type === "PATCH") {
+      promise = axios.patch(url, data, {
         headers: {
           Authorization: token,
-        }
-      })
+        },
+      });
     }
     promise
       .then((response) => {
@@ -88,9 +88,6 @@ export const reqonlineUser = () => ajax("/agent/onlineUser");
 
 export const reqGetLists = () => ajax("/agent/enable/house");
 
-export const reqGetInfo = () =>
-  ajax("/agent/profile",{},"GET");
+export const reqGetInfo = () => ajax("/agent/profile", {}, "GET");
 
-
-export const reqInfoUpdata = (data) => 
-  ajax("/agent/info",data,"PATCH");
+export const reqInfoUpdata = (data) => ajax("/agent/info", data, "PATCH");
