@@ -1,6 +1,5 @@
-import { useState, React, useEffect } from "react";
 import { Menu } from "antd";
-import { MailOutlined, AppstoreOutlined } from "@ant-design/icons";
+
 import "./index.scss";
 import { Outlet } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { message } from "antd";
 
-// const baseURL = "http://180.184.74.25:80";
+const baseURL = "http://180.184.74.25:80";
 // axios.defaults.headers["Content-Type"] = "application/json";
 axios.interceptors.response.use(
   function (response) {
@@ -12,7 +12,8 @@ axios.interceptors.response.use(
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
-    console.log(error);
+
+    return error.response.status;
   }
 );
 function ajax(url, data = {}, type = "GET") {
@@ -23,7 +24,7 @@ function ajax(url, data = {}, type = "GET") {
 
     if (type === "GET") {
       promise = axios.get(
-        url,
+        baseURL + url,
         {
           params: data,
           headers: {
@@ -32,25 +33,25 @@ function ajax(url, data = {}, type = "GET") {
         } //指定参数
       );
     } else if (type === "POST") {
-      promise = axios.post(url, data, {
+      promise = axios.post(baseURL + url, data, {
         headers: {
           Authorization: token,
         },
       });
     } else if (type === "DELETE") {
-      promise = axios.delete(url, data, {
+      promise = axios.delete(baseURL + url, {
         headers: {
           Authorization: token,
         },
       });
     } else if (type === "PUT") {
-      promise = axios.put(url, data, {
+      promise = axios.put(baseURL + url, data, {
         headers: {
           Authorization: token,
         },
       });
     } else if (type === "PATCH") {
-      promise = axios.patch(url, data, {
+      promise = axios.patch(baseURL + url, data, {
         headers: {
           Authorization: token,
         },
@@ -82,7 +83,7 @@ export const reqGetDetail = (projectId) =>
   ajax(`/agent/active/${projectId}`, {}, "GET");
 
 export const reqUpdate = (projectId, data) =>
-  ajax(`agent/update/${projectId}`, data, "PUT");
+  ajax(`/agent/update/${projectId}`, data, "PUT");
 
 export const reqonlineUser = () => ajax("/agent/onlineUser");
 

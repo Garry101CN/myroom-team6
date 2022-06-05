@@ -5,8 +5,8 @@ import "./index.scss";
 import { Input, Form, Button, Space, message, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { changeLabel } from "../../../utils/constant/index";
-import { Scrollbars } from "react-custom-scrollbars";
 function Right() {
+  const baseURL = "http://180.184.74.25:80";
   const { state, dispatch } = useContext(Context);
   const { data, rightPanelType, rightPanelElementId } = state;
   const [audioForm] = Form.useForm();
@@ -23,7 +23,6 @@ function Right() {
       },
       onChange(info) {
         if (info.file.status !== "uploading") {
-          console.log(info.file, info.fileList);
         }
 
         if (info.file.status === "done") {
@@ -88,7 +87,6 @@ function Right() {
     dispatch({ type: "SETDATA", data: data });
   };
   const onFinishVideo = (values) => {
-    console.log("test");
     for (let item of data) {
       if (item.id === rightPanelElementId) {
         for (let key in values) {
@@ -336,7 +334,9 @@ function Right() {
               </Space>
             </Form.Item>
           </Form>
-          <Upload {...createProps("/upload/picture", "picture", imgForm)}>
+          <Upload
+            {...createProps(baseURL + "/upload/picture", "picture", imgForm)}
+          >
             <Button style={{ marginLeft: "50%" }} icon={<UploadOutlined />}>
               Click to Upload
             </Button>
@@ -403,7 +403,9 @@ function Right() {
             </Form.Item>
           </Form>
 
-          <Upload {...createProps("/upload/audio", "audio", audioForm)}>
+          <Upload
+            {...createProps(baseURL + "/upload/audio", "audio", audioForm)}
+          >
             <Button style={{ marginLeft: "50%" }} icon={<UploadOutlined />}>
               Click to Upload
             </Button>
@@ -473,7 +475,9 @@ function Right() {
               </Space>
             </Form.Item>
           </Form>
-          <Upload {...createProps("/upload/video", "video", videoForm)}>
+          <Upload
+            {...createProps(baseURL + "/upload/video", "video", videoForm)}
+          >
             <Button style={{ marginLeft: "50%" }} icon={<UploadOutlined />}>
               Click to Upload
             </Button>

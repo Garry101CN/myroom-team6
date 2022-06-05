@@ -59,13 +59,7 @@ function ItemUsers() {
       <Card
         className="itemLists_Card"
         title={<p>正在浏览xxx项目的用户</p>}
-        extra={
-          <Search
-            placeholder="请输入"
-            onSearch={(value) => console.log(value)}
-            style={{ width: 300 }}
-          />
-        }
+        extra={<Search placeholder="请输入" style={{ width: 300 }} />}
       >
         <Table
           className="itemLists_Card_table"

@@ -10,7 +10,8 @@ import Context from "../../../redux/store";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { reqUpdate } from "../../../utils/ajax_uitis/index";
-function Left({ projectId, Id }) {
+function Left({ projectId }) {
+  const baseURL = "http://180.184.74.25:80";
   const nav = useNavigate();
   const { state, dispatch } = useContext(Context);
   const { data } = state;
@@ -27,10 +28,9 @@ function Left({ projectId, Id }) {
 
     request.data = data;
     if (!projectId) {
-      console.log(request);
       const res = await axios({
         method: "post",
-        url: "/agent/create/project",
+        url: baseURL + "/agent/create/project",
         data: JSON.stringify(request),
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,7 +57,7 @@ function Left({ projectId, Id }) {
         nav("/");
       } else {
         dispatch({ type: "reset" });
-        console.log(res);
+
         message.error("您还没有登录，或者登录过期，请重新登录");
         nav("/login");
       }

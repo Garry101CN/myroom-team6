@@ -10,11 +10,9 @@ function Test2() {
   const location = useLocation();
   let Id = null;
   let projectId = null;
-  console.log(location);
+
   if (location.state) {
     if (location.state.id) {
-      console.log("test");
-
       Id = location.state.id;
     }
     if (location.state.projectId) {

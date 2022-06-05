@@ -14,6 +14,7 @@ function ItemLists() {
   const nav = useNavigate();
   const projectDelete = async (text) => {
     const res = await reqEditor(text.id);
+    console.log(res);
     if (res.ret) {
       message.success("删除成功");
       const newres = await reqGetProject();
@@ -37,7 +38,7 @@ function ItemLists() {
       }
       return false;
     });
-    console.log(newData);
+
     setData(newData);
   };
   const projectEditor = async (text) => {
@@ -111,16 +112,17 @@ function ItemLists() {
   useEffect(() => {
     const asyncfunc = async () => {
       const res = await reqGetProject();
+
       if (res === 401) {
         message.error("您还未登录或者登录已过期");
         nav("/login", { replace: true });
       }
-      console.log(res.data);
+
       setData(res.data.reverse());
       resetData.current = JSON.parse(JSON.stringify(res.data));
     };
     asyncfunc();
-  }, []);
+  }, [nav]);
   return (
     <div className="itemLists">
       <Card
